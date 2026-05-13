@@ -1,3 +1,56 @@
+> ## 🍴 Fork Notice — Active Checkpoint Tag Feature
+>
+> **This is a fork of
+> [google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli)** with
+> a feature contribution by [Reid Kimball](https://github.com/ReidKimball).
+>
+> ### What I Built
+>
+> I added **active checkpoint tag tracking** so users can quickly save and
+> resume conversation checkpoints without retyping the tag name every time.
+> Before this change, `/chat save` required an explicit tag argument on every
+> invocation. Now the CLI remembers the last-used tag and offers it as a
+> default.
+>
+> ### Problem
+>
+> Gemini CLI already had checkpoint save/resume, but the workflow was
+> friction-heavy: users had to remember and retype the tag for every save.
+> During long iterative sessions this caused mistakes and slowed people down.
+>
+> ### Solution
+>
+> - **`activeCheckpointTag` session state** — The CLI tracks the most recently
+>   saved or resumed tag and uses it as the default for subsequent `/chat save`
+>   calls.
+> - **Automatic clearing** — The tag resets on `/clear` and when resuming a
+>   different session via the session browser, preventing stale-tag bugs.
+> - **Tab-completion fixes** — Restored subcommand autocompletion for `/chat`
+>   and `/resume` that broke after the command unification.
+> - **Type-safety cleanup** — Removed `any` from the `resumeCommand` return
+>   type.
+>
+> ### Files Changed (6 commits)
+>
+> | Area                  | Key Files                                                                     |
+> | --------------------- | ----------------------------------------------------------------------------- |
+> | **Feature**           | `packages/cli/src/ui/commands/chatCommand.ts`, `resumeCommand.ts`, `types.ts` |
+> | **Session state**     | `packages/cli/src/ui/hooks/slashCommandProcessor.ts`, `AppContainer.tsx`      |
+> | **Clear integration** | `packages/cli/src/ui/commands/clearCommand.ts`                                |
+> | **Tests**             | `chatCommand.test.ts`, `clearCommand.test.ts`                                 |
+> | **Docs**              | `docs/reference/commands.md`                                                  |
+>
+> ### How to Review the Code
+>
+> - **Browse the diff:** Compare this branch to upstream →
+>   [`upstream...reid/active-checkpoint-tag`](https://github.com/ReidKimball/gemini-cli/compare/main...reid/active-checkpoint-tag)
+> - **See the PR:**
+>   [PR #21439](https://github.com/google-gemini/gemini-cli/pull/21439)
+> - **Related issue:**
+>   [#21036](https://github.com/google-gemini/gemini-cli/issues/21036)
+>
+> ---
+
 # Gemini CLI
 
 [![Gemini CLI CI](https://github.com/google-gemini/gemini-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/google-gemini/gemini-cli/actions/workflows/ci.yml)
